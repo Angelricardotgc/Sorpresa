@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para ti 💖</title>
+
+<style>
+body {
+    margin: 0;
+    overflow: hidden;
+    background: radial-gradient(circle, #020024, #000);
+    height: 100vh;
+    font-family: Arial, sans-serif;
+}
+
+/* estrellas */
+.star {
+    position: absolute;
+    width: 2px;
+    height: 2px;
+    background: white;
+    animation: twinkle 2s infinite;
+}
+
+@keyframes twinkle {
+    0%,100% { opacity: 0.2; }
+    50% { opacity: 1; }
+}
+
+/* corazón */
+.heart {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 90px;
+    cursor: pointer;
+    animation: pulse 1s infinite;
+}
+
+@keyframes pulse {
+    0% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.2); }
+    100% { transform: translate(-50%, -50%) scale(1); }
+}
+
+/* frases */
+.msg {
+    position: absolute;
+    color: white;
+    background: rgba(255,0,100,0.3);
+    padding: 10px 15px;
+    border-radius: 20px;
+    animation: float 4s forwards;
+    backdrop-filter: blur(5px);
+}
+
+@keyframes float {
+    0% { opacity: 1; transform: translateY(0); }
+    100% { opacity: 0; transform: translateY(-200px); }
+}
+
+/* titulo */
+.title {
+    position: absolute;
+    top: 20px;
+    width: 100%;
+    text-align: center;
+    color: white;
+    font-size: 24px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="title">Para ti ❤️</div>
+<div class="heart" onclick="showLove()">❤️</div>
+
+<!-- AUDIO DESDE GITHUB -->
+<audio id="music" loop>
+    <source src="https://raw.githubusercontent.com/TU_USUARIO/para-ti/main/happy.mp3" type="audio/mpeg">
+</audio>
+
+<script>
+// estrellas
+for(let i=0;i<120;i++){
+    let s = document.createElement("div");
+    s.className="star";
+    s.style.top=Math.random()*100+"%";
+    s.style.left=Math.random()*100+"%";
+    document.body.appendChild(s);
+}
+
+// frases
+const frases = [
+"Tu amor es mi inspiración 💖",
+"Eres mi todo ✨",
+"Contigo soy feliz 💕",
+"Tu sonrisa ilumina mi vida 🌟",
+"Eres mi hogar 🏡",
+"Siempre contigo ❤️",
+"Eres mi felicidad 💫"
+];
+
+let started=false;
+
+function showLove(){
+    let msg = document.createElement("div");
+    msg.className="msg";
+    msg.innerText = frases[Math.floor(Math.random()*frases.length)];
+
+    msg.style.left = Math.random()*window.innerWidth+"px";
+    msg.style.top = Math.random()*window.innerHeight+"px";
+
+    document.body.appendChild(msg);
+
+    setTimeout(()=>msg.remove(),4000);
+
+    if(!started){
+        let audio = document.getElementById("music");
+        audio.play().catch(()=>{
+            alert("Toca de nuevo el corazón para activar la música 🎵");
+        });
+        started=true;
+    }
+}
+</script>
+
+</body>
+</html>

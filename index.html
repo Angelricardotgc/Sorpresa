@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Para ti 💖</title>
+
+<style>
+*{box-sizing:border-box}
+body{
+    margin:0;
+    overflow:hidden;
+    height:100vh;
+    font-family:system-ui, Arial, sans-serif;
+    background: radial-gradient(ellipse at bottom, #0b0b2a 0%, #000 100%);
+}
+
+/* ⭐ estrellas */
+.star{
+    position:absolute;
+    width:2px;height:2px;background:#fff;
+    opacity:.6;
+    animation: twinkle 2s infinite ease-in-out;
+}
+@keyframes twinkle{
+    0%,100%{opacity:.2; transform:scale(.8)}
+    50%{opacity:1; transform:scale(1.2)}
+}
+
+/* ❤️ corazón central */
+.heart{
+    position:absolute;
+    top:50%;left:50%;
+    transform:translate(-50%,-50%);
+    font-size:110px;
+    cursor:pointer;
+    filter: drop-shadow(0 0 10px rgba(255,0,80,.6));
+    animation:pulse 1.2s infinite;
+}
+@keyframes pulse{
+    0%,100%{transform:translate(-50%,-50%) scale(1)}
+    50%{transform:translate(-50%,-50%) scale(1.15)}
+}
+
+/* 💬 burbujas */
+.msg{
+    position:absolute;
+    color:#fff;
+    padding:10px 14px;
+    border-radius:20px;
+    font-size:15px;
+    background: linear-gradient(135deg, rgba(255,0,120,.5), rgba(255,120,180,.35));
+    backdrop-filter: blur(6px);
+    box-shadow:0 0 10px rgba(255,0,120,.4);
+    animation: floatUp 4s ease forwards;
+}
+@keyframes floatUp{
+    0%{opacity:0; transform:translateY(20px) scale(.9)}
+    10%{opacity:1}
+    100%{opacity:0; transform:translateY(-180px) scale(1.05)}
+}
+
+/* 💕 partículas de corazones */
+.particle{
+    position:absolute;
+    font-size:18px;
+    pointer-events:none;
+    animation: rise 3s linear forwards;
+}
+@keyframes rise{
+    0%{opacity:1; transform:translateY(0) scale(1)}
+    100%{opacity:0; transform:translateY(-200px) scale(1.6)}
+}
+
+/* 🎵 barra tipo TikTok */
+.player{
+    position:absolute;
+    top:20px; left:50%;
+    transform:translateX(-50%);
+    width:min(90%,420px);
+    padding:10px 14px;
+    border-radius:20px;
+    color:#fff;
+    background:linear-gradient(135deg, rgba(255,0,120,.45), rgba(255,120,180,.25));
+    backdrop-filter: blur(8px);
+    box-shadow:0 0 15px rgba(255,0,120,.35);
+}
+.player .row{
+    display:flex; align-items:center; gap:10px;
+}
+.playBtn{
+    width:34px;height:34px;border-radius:50%;
+    display:grid;place-items:center;
+    background:rgba(255,255,255,.2);
+    cursor:pointer;
+}
+.progress{
+    width:100%; height:4px; border-radius:4px;
+    background:rgba(255,255,255,.25);
+    overflow:hidden; margin-top:6px;
+}
+.bar{
+    width:0%; height:100%;
+    background:#ff4da6;
+}
+
+/* título */
+.title{
+    position:absolute; top:80px; width:100%;
+    text-align:center; color:#fff; font-size:20px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="player">
+    <div class="row">
+        <div class="playBtn" onclick="toggleMusic()">▶</div>
+        <div style="font-size:14px;">Te dedico esta canción ❤️</div>
+    </div>
+    <div class="progress"><div class="bar" id="bar"></div></div>
+</div>
+
+<div class="title">Para ti ❤️</div>
+<div class="heart" onclick="showLove()">❤️</div>
+
+<audio id="music" preload="auto" loop></audio>
+
+<script>
+// ⭐ estrellas
+for(let i=0;i<140;i++){
+    let s=document.createElement("div");
+    s.className="star";
+    s.style.top=Math.random()*100+"%";
+    s.style.left=Math.random()*100+"%";
+    document.body.appendChild(s);
+}
+
+// 💬 frases
+const frases=[
+"Tu amor es mi inspiración 💖",
+"Eres mi todo ✨",
+"Contigo soy feliz 💕",
+"Tu sonrisa ilumina mi vida 🌟",
+"Eres mi hogar 🏡",
+"Siempre contigo ❤️",
+"Eres mi felicidad 💫",
+"Eres la niña de mis ojos 😍",
+"Te amo ❤️",
+"Amo todo de ti 💕",
+"Eres lo mejor que me ha pasado 💖",
+"No dejo de pensar en ti 💫",
+"Eres mi razón de sonreír 😊"
+];
+
+let started=false;
+let audio=document.getElementById("music");
+
+// 💖 click corazón
+function showLove(){
+
+    // burbujas
+    for(let i=0;i<4;i++){
+        let msg=document.createElement("div");
+        msg.className="msg";
+        msg.innerText=frases[Math.floor(Math.random()*frases.length)];
+
+        msg.style.left=Math.random()*window.innerWidth+"px";
+        msg.style.top=Math.random()*window.innerHeight+"px";
+
+        document.body.appendChild(msg);
+        setTimeout(()=>msg.remove(),4000);
+    }
+
+    // partículas de corazones
+    for(let i=0;i<6;i++){
+        let p=document.createElement("div");
+        p.className="particle";
+        p.innerText="💖";
+        p.style.left=(window.innerWidth/2 + (Math.random()*80-40))+"px";
+        p.style.top=(window.innerHeight/2)+"px";
+        document.body.appendChild(p);
+        setTimeout(()=>p.remove(),3000);
+    }
+
+    // iniciar música
+    if(!started){
+        audio.src="happy_together.mp3"; // 👈 tu archivo en el repo
+        audio.play().catch(()=>{});
+        started=true;
+        updateProgress();
+    }
+}
+
+// ▶ botón play/pause
+function toggleMusic(){
+    if(audio.paused){
+        audio.src="happy_together.mp3";
+        audio.play();
+        started=true;
+        updateProgress();
+    }else{
+        audio.pause();
+    }
+}
+
+// 🎵 barra progreso
+function updateProgress(){
+    let bar=document.getElementById("bar");
+    setInterval(()=>{
+        if(audio.duration){
+            let p=(audio.currentTime/audio.duration)*100;
+            bar.style.width=p+"%";
+        }
+    },500);
+}
+</script>
+
+</body>
+</html>
